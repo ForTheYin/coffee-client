@@ -57,13 +57,13 @@ def get_gif():
 
 def brewCoffee():
     print("Brewing Coffee!")
-    Pin27 = GP.getPin27()
-    Pin27.out()
+    Pin25 = GP.getPin25()
+    Pin25.out()
     
     try:
-        Pin27.high()
+        Pin25.high()
         time.sleep(0.3)
-        Pin27.low()
+        Pin25.low()
         return True
     except:
         return False
@@ -73,13 +73,13 @@ def brewCoffee():
 
 def setStrongMode():
     print("Strong mode chosen!")
-    Pin25 = GP.getPin25()
-    Pin25.out()
+    Pin24 = GP.getPin24()
+    Pin24.out()
 
     try:
-        Pin25.high()
+        Pin24.high()
         time.sleep(0.3)
-        Pin25.low()
+        Pin24.low()
         return True
     except:
         return False
