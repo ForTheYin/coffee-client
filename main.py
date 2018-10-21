@@ -3,7 +3,7 @@ from giphy_client.rest import ApiException
 from pprint import pprint
 from GPIOLibrary import GPIOProcessor
 
-URL = "https://292c54ac.ngrok.io/"
+URL = "https://be070769.ngrok.io/"
 UUID = "123e4567-e89b-12d3-a456-426655440000"
 
 GP = GPIOProcessor()
@@ -32,7 +32,8 @@ def execute_action(item, actions_performed, current_state):
 
 def get_latest():
     r = requests.get(URL + "/queued/" + UUID)
-    return r.json()["queued_actions"]
+    json = r.json()
+    return json["queued_actions"] if json is not None else []
 
 def post_actions(actions_performed, current_state):
     ## Jsonify actions_performed, and POST
@@ -74,13 +75,13 @@ def brewCoffee():
 
 def setStrongMode():
     print("Strong mode chosen!")
-    Pin24 = GP.getPin24()
-    Pin24.out()
+    Pin26 = GP.getPin26()
+    Pin26.out()
 
     try:
-        Pin24.high()
+        Pin26.high()
         time.sleep(0.3)
-        Pin24.low()
+        Pin26.low()
         return True
     except:
         return False
