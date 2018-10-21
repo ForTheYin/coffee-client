@@ -9,7 +9,7 @@ UUID = "123e4567-e89b-12d3-a456-426655440000"
 GP = GPIOProcessor()
 
 def main():
-    get_gif()
+    # get_gif()
     current_state = {"brew_button": None, "temperature": None}
     while True:
         time.sleep(5)
@@ -37,7 +37,7 @@ def post_actions(actions_performed, current_state):
     data['current_state'] = current_state
     data['actions_performed'] = actions_performed
     r = requests.post(URL + "/perform/" + UUID, json = data)
-    return r.json()
+    return r #.json()
 
 def get_gif():
     api_instance = giphy_client.DefaultApi()
@@ -54,12 +54,10 @@ def get_gif():
         print("Exception when calling DefaultApi->gifs_random_get: %s\n" % e)
 
 def brewCoffee():
+    print("Brewing Coffee!")
     Pin27 = GP.getPin27()
     Pin27.out()
-
-    Pin25 = GP.getPin25()
-    Pin25.out()
-
+    
     try:
         Pin27.high()
         time.sleep(0.3)
@@ -69,6 +67,23 @@ def brewCoffee():
         return False
     finally:
         GP.cleanup()
+
+
+def setStrongMode():
+    print("Strong mode chosen!")
+    Pin25 = GP.getPin25()
+    Pin25.out()
+
+    try:
+        Pin25.high()
+        time.sleep(0.3)
+        Pin25.low()
+        return True
+    except:
+        return False
+    finally:
+        GP.cleanup()
+
 
 
 if __name__ == '__main__':
