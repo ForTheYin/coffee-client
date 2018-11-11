@@ -21,11 +21,12 @@ def main():
         post_actions(actions_performed, current_state)
 
 def execute_action(item, actions_performed, current_state):
-    
     if (item['action'] == "brew"):
         item['status'] = "completed" if brewCoffee() else "failed"
+        current_state['brew_button'] = "brewing"
     elif (item['action'] == "switch_brew"):
         item['status'] = "completed" if setStrongMode() else "failed"
+        current_state['strength_button'] = "strong" if current_state['strength_button'] == "regular" else "regular"
     
     actions_performed.append(item)
 
