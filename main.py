@@ -24,6 +24,8 @@ def execute_action(item, actions_performed, current_state):
     
     if (item['action'] == "brew"):
         item['status'] = "completed" if brewCoffee() else "failed"
+    elif (item['action'] == "switch_brew"):
+        item['status'] = "completed" if setStrongMode() else "failed"
     
     actions_performed.append(item)
 
