@@ -4,7 +4,7 @@ URL = "https://0fde11bc.ngrok.io"
 UUID = "123e4567-e89b-12d3-a456-426655440000"
 
 def main():
-    current_state = {"button_state": None}
+    current_state = {"brew_button": None, "temperate": None}
     while True:
         time.sleep(5)
         actions = get_latest()
