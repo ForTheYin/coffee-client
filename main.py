@@ -10,7 +10,7 @@ GP = GPIOProcessor()
 
 def main():
     # get_gif()
-    current_state = {"brew_button": None, "temperature": None}
+    current_state = {"brew_button": None, "temperature": None, "strength_button": None}
     while True:
         time.sleep(5)
         actions = get_latest()
