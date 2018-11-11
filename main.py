@@ -1,14 +1,16 @@
 import requests, time, json, giphy_client, webbrowser
 from giphy_client.rest import ApiException
 from pprint import pprint
+from GPIOLibrary import GPIOProcessor
 
-
-URL = "https://0fde11bc.ngrok.io"
+URL = "https://292c54ac.ngrok.io/"
 UUID = "123e4567-e89b-12d3-a456-426655440000"
+
+GP = GPIOProcessor()
 
 def main():
     get_gif()
-    current_state = {"brew_button": None, "temperate": None}
+    current_state = {"brew_button": None, "temperature": None}
     while True:
         time.sleep(5)
         actions = get_latest()
@@ -20,10 +22,8 @@ def main():
 
 def execute_action(item, actions_performed, current_state):
     
-    if (True):
-        item['status'] = "completed"
-    else:
-        item['status'] = "failed"
+    if (item['action'] == "brew"):
+        item['status'] = "completed" if brewCoffee() else "failed"
     
     actions_performed.append(item)
 
@@ -36,7 +36,7 @@ def post_actions(actions_performed, current_state):
     data = {}
     data['current_state'] = current_state
     data['actions_performed'] = actions_performed
-    r = requests.post(URL + "/perform/" + UUID, json = data, )
+    r = requests.post(URL + "/perform/" + UUID, json = data)
     return r.json()
 
 def get_gif():
@@ -52,6 +52,23 @@ def get_gif():
         webbrowser.open_new_tab(api_response.data.image_url)
     except ApiException as e:
         print("Exception when calling DefaultApi->gifs_random_get: %s\n" % e)
+
+def brewCoffee():
+    Pin27 = GP.getPin27()
+    Pin27.out()
+
+    Pin25 = GP.getPin25()
+    Pin25.out()
+
+    try:
+        Pin27.high()
+        time.sleep(0.3)
+        Pin27.low()
+        return True
+    except:
+        return False
+    finally:
+        GP.cleanup()
 
 
 if __name__ == '__main__':
